@@ -32,8 +32,14 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String fullName;
+
+    @Column(nullable = true)
+    private String phoneNumber;
+
+    @Column(nullable = true)
+    private String address;
 
     @CreatedDate
     @Column(updatable = false)

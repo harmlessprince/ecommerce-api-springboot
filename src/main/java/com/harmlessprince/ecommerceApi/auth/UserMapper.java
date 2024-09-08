@@ -12,11 +12,10 @@ public class UserMapper {
                 .email(request.getEmail())
                 .password(request.getPassword())
                 .id(request.getId())
-                .fullName(request.getFullName())
                 .build();
     }
 
     public UserResponse fromUser(User user) {
-        return new UserResponse(user.getId(),  user.getEmail(), user.getFullName());
+        return new UserResponse(user.getId(),  user.getEmail(), user.getFullName(), user.getPhoneNumber(), user.getAddress());
     }
 }

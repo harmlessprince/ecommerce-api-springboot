@@ -25,8 +25,4 @@ public class RegisterUserRequest {
     @NotEmpty(message = "password can not be empty")
     private String password;
 
-    @Length(min = 2, message = "Full name can not be less than 2 characters")
-    @NotNull(message = "Full name is required")
-    @NotEmpty(message = "Full name can not be empty")
-    private String fullName;
 }
