@@ -1,6 +1,8 @@
 package com.harmlessprince.ecommerceApi.handler;
 
+import com.harmlessprince.ecommerceApi.exceptions.CustomResourceNotFoundException;
 import com.harmlessprince.ecommerceApi.exceptions.EmailTakenException;
+import com.harmlessprince.ecommerceApi.exceptions.UserNotfoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -18,6 +20,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.HashMap;
 
@@ -27,13 +30,30 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<CustomErrorResponse> handle(HttpMessageNotReadableException exp) {
-        log.error(exp.getMessage());
-        CustomErrorResponse response = new CustomErrorResponse(false, "Required request body is missing");
+        CustomErrorResponse response = new CustomErrorResponse(false, exp.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(EmailTakenException.class)
     public ResponseEntity<CustomErrorResponse> handle(EmailTakenException exp) {
+        CustomErrorResponse response = new CustomErrorResponse(false, exp.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(UserNotfoundException.class)
+    public ResponseEntity<CustomErrorResponse> handle(UserNotfoundException exp) {
+        CustomErrorResponse response = new CustomErrorResponse(false, exp.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(CustomResourceNotFoundException.class)
+    public ResponseEntity<CustomErrorResponse> handle(CustomResourceNotFoundException exp) {
+        CustomErrorResponse response = new CustomErrorResponse(false, exp.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<CustomErrorResponse> handle(NoResourceFoundException exp) {
         CustomErrorResponse response = new CustomErrorResponse(false, exp.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }

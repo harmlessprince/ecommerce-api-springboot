@@ -1,5 +1,6 @@
 package com.harmlessprince.ecommerceApi.user;
 
+import com.harmlessprince.ecommerceApi.address.Address;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -48,6 +50,10 @@ public class User implements UserDetails {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
+
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+//    private List<Address> addresses;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
