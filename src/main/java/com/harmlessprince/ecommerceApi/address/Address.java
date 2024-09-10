@@ -26,7 +26,7 @@ public class Address {
     private String postalCode;
     private String city;
 
-    @Column(nullable = true, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    @Column(nullable = true, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isDefault = false;
 
     @ManyToOne(fetch = FetchType.EAGER)
