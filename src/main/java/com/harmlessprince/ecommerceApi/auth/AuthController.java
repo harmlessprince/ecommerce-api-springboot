@@ -29,7 +29,7 @@ public class AuthController {
             throw new EmailTakenException();
         }
         User registeredUser = authenticationService.signup(registerUserRequest);
-        CustomSuccessResponse<UserResponse> response = new CustomSuccessResponse<UserResponse>("Registration successful", userMapper.fromUser(registeredUser));
+        CustomSuccessResponse<UserResponse> response = new CustomSuccessResponse<UserResponse>( userMapper.fromUser(registeredUser), "Registration successful");
         return ResponseEntity.ok(response);
     }
 

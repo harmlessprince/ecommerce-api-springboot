@@ -2,13 +2,13 @@ package com.harmlessprince.ecommerceApi.address;
 
 
 import com.harmlessprince.ecommerceApi.exceptions.CustomResourceNotFoundException;
-import com.harmlessprince.ecommerceApi.exceptions.UserNotfoundException;
 import com.harmlessprince.ecommerceApi.lga.LocalGovernment;
 import com.harmlessprince.ecommerceApi.lga.LocalGovernmentService;
 import com.harmlessprince.ecommerceApi.state.State;
 import com.harmlessprince.ecommerceApi.state.StateService;
 import com.harmlessprince.ecommerceApi.user.User;
 import com.harmlessprince.ecommerceApi.user.UserService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,6 +29,19 @@ public class AddressService {
 
     public List<Address> getUserAddresses(Integer userId) {
         return addressRepository.findByUserId(userId);
+    }
+
+    public Address findById(Integer addressId) {
+        return addressRepository.findById(addressId).orElseThrow(() -> new CustomResourceNotFoundException("Address not found"));
+    }
+
+    @Transactional
+    public void setAddressAsDefault(Address address) {
+        List<Address> addresses = addressRepository.findAllByUserIdAndIsDefaultIsTrue(address.getUser().getId());
+        addresses.forEach(item -> item.setIsDefault(false));
+        addressRepository.saveAll(addresses);
+        address.setIsDefault(true);
+        addressRepository.save(address);
     }
 
     public Address createAddress(AddressRequest request, User user) {

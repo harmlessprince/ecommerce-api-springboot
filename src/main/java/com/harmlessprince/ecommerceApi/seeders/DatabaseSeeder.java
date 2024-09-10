@@ -10,10 +10,12 @@ public class DatabaseSeeder {
     private final CountrySeeder countrySeeder;
     private final StateSeeder stateSeeder;
     private final LocalGovernmentSeeder localGovernmentSeeder;
+    private final PaymentMethodSeeder paymentMethodSeeder;
     @PostConstruct
     private void seed() {
        countrySeeder.run();
        stateSeeder.run();
        localGovernmentSeeder.run();
+       paymentMethodSeeder.run();
     }
 }

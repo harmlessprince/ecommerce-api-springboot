@@ -1,6 +1,8 @@
 package com.harmlessprince.ecommerceApi.paymentMethod;
 
 
+import com.harmlessprince.ecommerceApi.handler.CustomErrorResponse;
+import com.harmlessprince.ecommerceApi.handler.CustomSuccessResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +17,9 @@ public class PaymentMethodController {
     private final PaymentMethodRepository paymentMethodRepository;
 
     @GetMapping
-    public ResponseEntity<Iterable<PaymentMethod>> getAllPaymentMethods() {
-        return ResponseEntity.ok(paymentMethodRepository.findAll());
+    public ResponseEntity<CustomSuccessResponse<Iterable<PaymentMethod>>> getAllPaymentMethods() {
+        Iterable<PaymentMethod> paymentMethods = paymentMethodRepository.findAll();
+        return ResponseEntity.ok(new CustomSuccessResponse<>(paymentMethods));
     }
 
 }

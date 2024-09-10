@@ -20,7 +20,7 @@ public class UserController {
     public ResponseEntity<CustomSuccessResponse<UserResponse>> getUserProfile() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(new CustomSuccessResponse<>("User profile retrieved", userMapper.fromUser(currentUser)));
+        return ResponseEntity.ok(new CustomSuccessResponse<>( userMapper.fromUser(currentUser), "User profile retrieved"));
     }
 
     @PatchMapping("/profile/update")
@@ -28,6 +28,6 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) authentication.getPrincipal();
         userService.updateProfile(request, currentUser);
-        return ResponseEntity.ok(new CustomSuccessResponse<>("User profile retrieved", userMapper.fromUser(currentUser)));
+        return ResponseEntity.ok(new CustomSuccessResponse<>(userMapper.fromUser(currentUser), "User profile retrieved"));
     }
 }

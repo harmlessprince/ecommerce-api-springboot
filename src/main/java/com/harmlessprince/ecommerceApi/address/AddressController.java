@@ -1,5 +1,6 @@
 package com.harmlessprince.ecommerceApi.address;
 
+import com.harmlessprince.ecommerceApi.exceptions.CustomResourceNotFoundException;
 import com.harmlessprince.ecommerceApi.exceptions.UserNotfoundException;
 import com.harmlessprince.ecommerceApi.handler.CustomErrorResponse;
 import com.harmlessprince.ecommerceApi.handler.CustomSuccessResponse;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/v1/addresses")
@@ -46,4 +48,18 @@ public class AddressController {
         return ResponseEntity.ok(new CustomSuccessResponse<>(addressMapper.fromAddress(address)));
     }
 
+    @PatchMapping("/{addressId}/default")
+    public ResponseEntity<CustomSuccessResponse<Object>> makeAddressDefault(@PathVariable Integer addressId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        Address address = addressService.findById(addressId);
+        if(!Objects.equals(address.getUser().getId(), currentUser.getId())) {
+            throw new CustomResourceNotFoundException("Address not found");
+        }
+        if (address.getIsDefault()){
+            return ResponseEntity.ok(new CustomSuccessResponse<>(null, "Address is already default"));
+        }
+        addressService.setAddressAsDefault(address);
+        return ResponseEntity.ok(new CustomSuccessResponse<>(null, "Address set has default successfully"));
+    }
 }

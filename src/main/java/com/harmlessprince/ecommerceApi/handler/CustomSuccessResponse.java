@@ -11,7 +11,7 @@ public record CustomSuccessResponse<T>(
         this(true, "success", data);
     }
 
-    public CustomSuccessResponse(String message, T data) {
+    public CustomSuccessResponse(T data, String message) {
         this(true, message, data);
     }
 }
