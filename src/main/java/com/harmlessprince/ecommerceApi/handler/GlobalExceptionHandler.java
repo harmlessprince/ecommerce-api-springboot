@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<CustomErrorResponse> handle(NoResourceFoundException exp) {
         CustomErrorResponse response = new CustomErrorResponse(false, exp.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
 

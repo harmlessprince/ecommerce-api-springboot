@@ -23,7 +23,7 @@ public class LocalGovernment {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column()
+    @Column(nullable = true, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private Boolean status = true;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

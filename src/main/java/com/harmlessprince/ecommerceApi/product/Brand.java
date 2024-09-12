@@ -1,12 +1,8 @@
 package com.harmlessprince.ecommerceApi.product;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -14,29 +10,23 @@ import java.util.Set;
 @Setter
 @Getter
 @Table(
-        name = "categories",
-        indexes = {
-                @Index(name = "idx_parent_id", columnList = "parent_id")
-        }
+        name = "brands"
 )
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductCategory {
+public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column()
-    private Integer parentId;
-
+    // Storage LG, Hisense
     @Column(nullable = false, unique = true)
     private String name;
 
+    private String logo;
+
     @Column(nullable = false, unique = true)
     private String slug;
-
-    @ManyToMany(mappedBy = "productCategories")
-    private Set<Product> products;
 
     @PrePersist
     public void onPrePersist() {

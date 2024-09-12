@@ -1,5 +1,6 @@
 package com.harmlessprince.ecommerceApi.seeders;
 
+import com.harmlessprince.ecommerceApi.contracts.ISeeder;
 import com.harmlessprince.ecommerceApi.country.Country;
 import com.harmlessprince.ecommerceApi.paymentMethod.PaymentMethod;
 import com.harmlessprince.ecommerceApi.paymentMethod.PaymentMethodRepository;
@@ -10,10 +11,10 @@ import java.util.Arrays;
 
 @AllArgsConstructor
 @Service
-public class PaymentMethodSeeder {
+public class PaymentMethodSeeder implements ISeeder {
     private final PaymentMethodRepository paymentMethodRepository;
     public void run(){
-        String[] countries = new String[]{
+        String[] paymentMethods = new String[]{
                 "Credit Card",
                 "Debit Card",
                 "Transfer",
@@ -21,10 +22,13 @@ public class PaymentMethodSeeder {
                 "Wallet",
                 "Crypto Currency",
         };
-        Arrays.stream(countries).forEach(country -> {
-            if (paymentMethodRepository.findByName(country).isEmpty()){
+        if (paymentMethodRepository.count() >= paymentMethods.length) {
+            return;
+        }
+        Arrays.stream(paymentMethods).forEach(item -> {
+            if (paymentMethodRepository.findByName(item).isEmpty()){
                 PaymentMethod paymentMethod = new PaymentMethod();
-                paymentMethod.setName(country);
+                paymentMethod.setName(item);
                 paymentMethodRepository.save(paymentMethod);
             }
         });

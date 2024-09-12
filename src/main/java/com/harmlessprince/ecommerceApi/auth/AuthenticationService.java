@@ -20,6 +20,7 @@ public class AuthenticationService {
 
     public User signup(RegisterUserRequest request) {
         User user = userMapper.fromUseRequest(request);
+        user.setEmail(user.getEmail().toLowerCase());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }

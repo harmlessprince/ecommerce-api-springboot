@@ -1,10 +1,12 @@
 package com.harmlessprince.ecommerceApi.seeders;
 
+import com.harmlessprince.ecommerceApi.contracts.ISeeder;
 import com.harmlessprince.ecommerceApi.country.CountryRepository;
 import com.harmlessprince.ecommerceApi.lga.LocalGovernment;
 import com.harmlessprince.ecommerceApi.lga.LocalGovernmentRepository;
 import com.harmlessprince.ecommerceApi.state.State;
 import com.harmlessprince.ecommerceApi.state.StateRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +14,12 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Service
-public class LocalGovernmentSeeder {
+public class LocalGovernmentSeeder implements ISeeder {
     private final StateRepository stateRepository;
     private final CountryRepository countryRepository;
     private final LocalGovernmentRepository localGovernmentRepository;
 
+    @Transactional
     public void run() {
         String[] items = new String[]{
                 "Alimosho",

@@ -1,5 +1,6 @@
 package com.harmlessprince.ecommerceApi.seeders;
 
+import com.harmlessprince.ecommerceApi.contracts.ISeeder;
 import com.harmlessprince.ecommerceApi.country.Country;
 import com.harmlessprince.ecommerceApi.country.CountryRepository;
 import com.harmlessprince.ecommerceApi.state.State;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Service
-public class StateSeeder {
+public class StateSeeder implements ISeeder {
     private final StateRepository stateRepository;
     private final CountryRepository countryRepository;
 
