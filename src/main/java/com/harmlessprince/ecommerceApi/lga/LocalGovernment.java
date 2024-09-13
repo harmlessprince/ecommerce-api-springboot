@@ -5,7 +5,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.harmlessprince.ecommerceApi.state.State;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -17,7 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor
 public class LocalGovernment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, unique = true)
@@ -25,6 +29,14 @@ public class LocalGovernment {
 
     @Column(nullable = true, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private Boolean status = true;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    private LocalDateTime lastModifiedDate;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "state_id")

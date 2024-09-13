@@ -21,14 +21,13 @@ public record ProductRequest(Integer id,
                              @NotEmpty(message = "Product name is required") @Length(min = 1) String name,
                              @NotEmpty(message = "description is required") String description,
                              String imageUrl,
+                             @NotNull(message = "brand is required")
                              Integer brandId,
                              @NotNull(message = "categories is required")
-                             @Size(min = 1, message = "The number of categories must be greater than 1")
+                             @Size(min = 1, message = "The number of categories must be greater than 0")
                              List<@Min(value = 1, message = "Each category must be at least 1") Integer> categoriesId,
                              @NotNull(message = "categories is required")
-                             @Size(min = 1, message = "The number of categories must be greater than 1")
-                             List<@Min(value = 1, message = "Each product image id must be at least 1") Integer> productImagesId,
-                             Brand brand,
-                             Set<ProductCategory> productCategories
+                             @Size(min = 1, message = "The number of product images must be greater than 0")
+                             List<@Min(value = 1, message = "Each product image id must be at least 1") Integer> files
 ) implements Serializable {
 }

@@ -5,6 +5,7 @@ import com.harmlessprince.ecommerceApi.product.Variation;
 import com.harmlessprince.ecommerceApi.product.requests.VariationRequest;
 import com.harmlessprince.ecommerceApi.product.responses.VariationResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 
 
 @AllArgsConstructor
-@Service
+@Component
 public class VariationMapper implements IMapper<Variation, VariationResponse, VariationRequest> {
     private final ProductCategoryMapper productCategoryMapper;
     @Override

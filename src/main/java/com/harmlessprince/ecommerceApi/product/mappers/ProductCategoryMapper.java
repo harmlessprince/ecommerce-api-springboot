@@ -5,13 +5,14 @@ import com.harmlessprince.ecommerceApi.product.ProductCategory;
 import com.harmlessprince.ecommerceApi.product.requests.ProductCategoryRequest;
 import com.harmlessprince.ecommerceApi.product.responses.ProductCategoryResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-@Service
+@Component
 public class ProductCategoryMapper implements IMapper<ProductCategory, ProductCategoryResponse, ProductCategoryRequest> {
     @Override
     public ProductCategoryResponse fromEntity(ProductCategory entity) {

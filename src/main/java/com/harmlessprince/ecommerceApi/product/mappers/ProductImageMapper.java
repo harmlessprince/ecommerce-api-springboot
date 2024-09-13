@@ -5,18 +5,19 @@ import com.harmlessprince.ecommerceApi.product.ProductImage;
 import com.harmlessprince.ecommerceApi.product.requests.ProductImageRequest;
 import com.harmlessprince.ecommerceApi.product.responses.ProductImageResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @AllArgsConstructor
-@Service
+@Component
 public class ProductImageMapper implements IMapper<ProductImage, ProductImageResponse, ProductImageRequest> {
     @Override
     public ProductImageResponse fromEntity(ProductImage entity) {
         return new ProductImageResponse(
                 entity.getId(),
-                entity.getImageUrl()
+                entity.getFile().getUrl()
         );
     }
 
@@ -25,13 +26,13 @@ public class ProductImageMapper implements IMapper<ProductImage, ProductImageRes
         return ProductImage
                 .builder()
                 .id(request.id())
-                .imageUrl(request.imageUrl())
                 .product(request.product())
+                .file(request.file())
                 .build();
     }
 
     @Override
     public List<ProductImageResponse> fromEntityList(List<ProductImage> entities) {
-        return List.of();
+        return entities.stream().map(this::fromEntity).toList();
     }
 }

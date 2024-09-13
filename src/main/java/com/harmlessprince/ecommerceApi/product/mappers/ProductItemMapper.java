@@ -8,13 +8,14 @@ import com.harmlessprince.ecommerceApi.product.responses.ProductItemResponse;
 import com.harmlessprince.ecommerceApi.product.responses.VariationOptionResponse;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-@Service
+@Component
 public class ProductItemMapper implements IMapper<ProductItem, ProductItemResponse, ProductItemRequest> {
     private final VariationOptionMapper variationOptionMapper;
     private final ProductMapper productMapper;

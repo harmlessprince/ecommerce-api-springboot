@@ -4,9 +4,12 @@ package com.harmlessprince.ecommerceApi.product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 
@@ -22,7 +25,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class ProductItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String sku;
@@ -36,6 +39,15 @@ public class ProductItem {
 //    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than zero")
     @Column(precision = 10, scale = 2)
     private BigDecimal salePrice;
+
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    private LocalDateTime lastModifiedDate;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

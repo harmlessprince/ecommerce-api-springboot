@@ -2,7 +2,11 @@ package com.harmlessprince.ecommerceApi.product;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -16,7 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor
 public class Brand {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // Storage LG, Hisense
@@ -27,6 +31,14 @@ public class Brand {
 
     @Column(nullable = false, unique = true)
     private String slug;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    private LocalDateTime lastModifiedDate;
 
     @PrePersist
     public void onPrePersist() {

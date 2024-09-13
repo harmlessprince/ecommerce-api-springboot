@@ -3,8 +3,11 @@ package com.harmlessprince.ecommerceApi.product;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,7 +23,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class VariationOption {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
 
@@ -29,6 +32,14 @@ public class VariationOption {
 
     @Column(nullable = false, unique = true)
     private String slug;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    private LocalDateTime lastModifiedDate;
 
     // a size variation may have XS, S,  M, L, XL
     // a color variation may have grey, black, dark and blue

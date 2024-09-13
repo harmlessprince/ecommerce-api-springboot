@@ -2,16 +2,11 @@ package com.harmlessprince.ecommerceApi.product.filters;
 
 
 import com.harmlessprince.ecommerceApi.bases.BaseFilter;
-import com.harmlessprince.ecommerceApi.contracts.IFilter;
 import com.harmlessprince.ecommerceApi.product.ProductCategory;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
-import java.util.Map;
-
-@Service
+@Component
 public class ProductCategoryFilter extends BaseFilter<ProductCategory> {
 
     public Specification<ProductCategory> filterByParentId(String parentId) {

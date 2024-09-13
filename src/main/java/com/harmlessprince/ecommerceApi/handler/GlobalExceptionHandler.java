@@ -1,5 +1,6 @@
 package com.harmlessprince.ecommerceApi.handler;
 
+import com.harmlessprince.ecommerceApi.exceptions.CustomBadRequestException;
 import com.harmlessprince.ecommerceApi.exceptions.CustomResourceNotFoundException;
 import com.harmlessprince.ecommerceApi.exceptions.EmailTakenException;
 import com.harmlessprince.ecommerceApi.exceptions.UserNotfoundException;
@@ -17,6 +18,7 @@ import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -56,6 +58,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<CustomErrorResponse> handle(NoResourceFoundException exp) {
         CustomErrorResponse response = new CustomErrorResponse(false, exp.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+//    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+//    public ResponseEntity<CustomErrorResponse> handle(HttpMediaTypeNotSupportedException exp) {
+//        CustomErrorResponse response = new CustomErrorResponse(false, exp.getMessage());
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+//    }
+
+    @ExceptionHandler({CustomBadRequestException.class, HttpMediaTypeNotSupportedException.class})
+    public ResponseEntity<CustomErrorResponse> handleBadRequestExceptions(Exception exp) {
+        CustomErrorResponse response = new CustomErrorResponse(false, exp.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
 
@@ -98,6 +112,7 @@ public class GlobalExceptionHandler {
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());
             errorDetail.setProperty("description", "The JWT token has expired");
         }
+
 
         if (errorDetail == null) {
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(500), exception.getMessage());

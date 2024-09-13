@@ -3,8 +3,11 @@ package com.harmlessprince.ecommerceApi.product;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +26,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class ProductCategory {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column()
@@ -37,6 +40,14 @@ public class ProductCategory {
 
     @ManyToMany(mappedBy = "productCategories")
     private Set<Product> products;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    private LocalDateTime lastModifiedDate;
 
     @PrePersist
     public void onPrePersist() {

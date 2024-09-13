@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.harmlessprince.ecommerceApi.state.State;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -20,7 +23,7 @@ import java.util.Set;
 public class Country {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, unique = true)
@@ -28,6 +31,14 @@ public class Country {
 
     @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
     private Boolean status = true;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    private LocalDateTime lastModifiedDate;
 
     @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
     @JsonBackReference

@@ -6,13 +6,13 @@ import com.harmlessprince.ecommerceApi.product.requests.BrandRequest;
 import com.harmlessprince.ecommerceApi.product.responses.BrandResponse;
 import com.harmlessprince.ecommerceApi.product.services.BrandService;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-@Service
+@Component
 public class BrandMapper implements IMapper<Brand, BrandResponse, BrandRequest> {
     private final BrandService brandService;
 

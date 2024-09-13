@@ -6,13 +6,14 @@ import com.harmlessprince.ecommerceApi.product.VariationOption;
 import com.harmlessprince.ecommerceApi.product.requests.VariationOptionRequest;
 import com.harmlessprince.ecommerceApi.product.responses.VariationOptionResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-@Service
+@Component
 public class VariationOptionMapper implements IMapper<VariationOption, VariationOptionResponse, VariationOptionRequest> {
     private final VariationMapper variationMapper;
 

@@ -1,11 +1,16 @@
 package com.harmlessprince.ecommerceApi.product;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,7 +28,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     @Column(columnDefinition = "TEXT")
@@ -35,7 +40,19 @@ public class Product {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+    @JsonManagedReference
+    private List<ProductImage> productImages;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    private LocalDateTime lastModifiedDate;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinTable(
             name = "product_categories",
             joinColumns = @JoinColumn(name = "product_id"),

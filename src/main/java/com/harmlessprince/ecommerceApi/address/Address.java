@@ -6,7 +6,11 @@ import com.harmlessprince.ecommerceApi.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.type.NumericBooleanConverter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -26,8 +30,16 @@ public class Address {
     private String postalCode;
     private String city;
 
-    @Column(nullable = true, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isDefault = false;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    private LocalDateTime lastModifiedDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id")

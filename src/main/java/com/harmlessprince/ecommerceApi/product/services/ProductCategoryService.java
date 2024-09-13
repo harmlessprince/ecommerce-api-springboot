@@ -43,6 +43,10 @@ public class ProductCategoryService implements IService<ProductCategory, Product
         return productCategoryRepository.findAll();
     }
 
+    public List<ProductCategory> findAllByIdIn(List<Integer> ids) {
+        return productCategoryRepository.findAllById(ids);
+    }
+
 
     public List<ProductCategory> findAllAndFilter(Map<String, Object> requestParams) {
         Specification<ProductCategory> specification = productCategoryFilter.applyFilter(requestParams);
