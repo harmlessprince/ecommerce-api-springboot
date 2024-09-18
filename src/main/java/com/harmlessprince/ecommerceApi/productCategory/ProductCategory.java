@@ -1,7 +1,8 @@
-package com.harmlessprince.ecommerceApi.country;
+package com.harmlessprince.ecommerceApi.productCategory;
+
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.harmlessprince.ecommerceApi.state.State;
+import com.harmlessprince.ecommerceApi.product.Product;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,7 +10,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,20 +17,31 @@ import java.util.Set;
 @Builder
 @Setter
 @Getter
-@Table(name = "countries")
+@Table(
+        name = "categories",
+        indexes = {
+                @Index(name = "idx_parent_id", columnList = "parent_id")
+        }
+)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Country {
-
+public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column()
+    private Integer parentId;
+
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private Boolean status = true;
+    @Column(nullable = false, unique = true)
+    private String slug;
+
+    @ManyToMany(mappedBy = "productCategories")
+    @JsonBackReference
+    private Set<Product> products;
 
     @CreatedDate
     @Column(updatable = false)
@@ -40,7 +51,12 @@ public class Country {
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
 
-    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
-    @JsonBackReference
-    private Set<State> states;
+    @PrePersist
+    public void onPrePersist() {
+        this.setSlug(name.toLowerCase().replace(" ", "_").replace("-", "_"));
+    }
+    @PreUpdate
+    public void onPreUpdate() {
+        this.setSlug(name.toLowerCase().replace(" ", "_").replace("-", "_"));
+    }
 }

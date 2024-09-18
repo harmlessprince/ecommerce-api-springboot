@@ -1,5 +1,6 @@
 package com.harmlessprince.ecommerceApi.configs;
 
+import com.harmlessprince.ecommerceApi.exceptions.HandleAuthenticationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,12 +23,13 @@ import java.util.List;
 @EnableWebSecurity
 @Slf4j
 public class SecurityConfiguration {
-    private AuthenticationProvider authenticationProvider;
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
-
+    private final AuthenticationProvider authenticationProvider;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final HandleAuthenticationException handleAuthenticationException;
     public SecurityConfiguration(AuthenticationProvider authenticationProvider, JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.handleAuthenticationException = new HandleAuthenticationException();
     }
 
     @Bean
@@ -38,10 +40,12 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("v1/auth/**").permitAll()
                         .requestMatchers("/error").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .anyRequest().authenticated()
                 ).sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).authenticationProvider(authenticationProvider)
+                .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(handleAuthenticationException))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 //
         return http.build();

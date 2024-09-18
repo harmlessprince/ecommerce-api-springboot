@@ -38,7 +38,7 @@ public class FileService implements IService<File, FileRequest> {
         return fileRepository.save(file);
     }
 
-    @Override
+
     public File update(File model, FileRequest data) {
         return null;
     }

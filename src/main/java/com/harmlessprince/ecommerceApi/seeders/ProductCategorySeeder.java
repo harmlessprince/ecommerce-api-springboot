@@ -1,8 +1,8 @@
 package com.harmlessprince.ecommerceApi.seeders;
 
 import com.harmlessprince.ecommerceApi.contracts.ISeeder;
-import com.harmlessprince.ecommerceApi.product.ProductCategory;
-import com.harmlessprince.ecommerceApi.product.repositories.ProductCategoryRepository;
+import com.harmlessprince.ecommerceApi.productCategory.ProductCategory;
+import com.harmlessprince.ecommerceApi.productCategory.ProductCategoryRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

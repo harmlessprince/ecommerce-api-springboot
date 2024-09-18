@@ -1,8 +1,8 @@
 package com.harmlessprince.ecommerceApi.seeders;
 
 import com.harmlessprince.ecommerceApi.contracts.ISeeder;
-import com.harmlessprince.ecommerceApi.product.Brand;
-import com.harmlessprince.ecommerceApi.product.repositories.BrandRepository;
+import com.harmlessprince.ecommerceApi.brand.Brand;
+import com.harmlessprince.ecommerceApi.brand.BrandRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

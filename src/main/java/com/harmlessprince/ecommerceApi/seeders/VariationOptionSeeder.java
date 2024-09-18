@@ -1,11 +1,10 @@
 package com.harmlessprince.ecommerceApi.seeders;
 
 import com.harmlessprince.ecommerceApi.contracts.ISeeder;
-import com.harmlessprince.ecommerceApi.product.ProductCategory;
-import com.harmlessprince.ecommerceApi.product.Variation;
-import com.harmlessprince.ecommerceApi.product.VariationOption;
-import com.harmlessprince.ecommerceApi.product.repositories.VariationOptionsRepository;
-import com.harmlessprince.ecommerceApi.product.repositories.VariationRepository;
+import com.harmlessprince.ecommerceApi.variation.Variation;
+import com.harmlessprince.ecommerceApi.variationOption.VariationOption;
+import com.harmlessprince.ecommerceApi.variationOption.VariationOptionsRepository;
+import com.harmlessprince.ecommerceApi.variation.VariationRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

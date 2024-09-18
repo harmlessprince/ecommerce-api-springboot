@@ -1,7 +1,5 @@
-package com.harmlessprince.ecommerceApi.country;
+package com.harmlessprince.ecommerceApi.brand;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.harmlessprince.ecommerceApi.state.State;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,28 +7,30 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Builder
 @Setter
 @Getter
-@Table(name = "countries")
+@Table(
+        name = "brands"
+)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Country {
-
+public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    // Storage LG, Hisense
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private Boolean status = true;
+    private String logo;
+
+    @Column(nullable = false, unique = true)
+    private String slug;
 
     @CreatedDate
     @Column(updatable = false)
@@ -40,7 +40,12 @@ public class Country {
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
 
-    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
-    @JsonBackReference
-    private Set<State> states;
+    @PrePersist
+    public void onPrePersist() {
+        this.setSlug(name.toLowerCase().replace(" ", "_").replace("-", "_"));
+    }
+    @PreUpdate
+    public void onPreUpdate() {
+        this.setSlug(name.toLowerCase().replace(" ", "_").replace("-", "_"));
+    }
 }

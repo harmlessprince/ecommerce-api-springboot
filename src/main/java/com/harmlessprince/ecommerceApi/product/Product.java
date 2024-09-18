@@ -2,13 +2,15 @@ package com.harmlessprince.ecommerceApi.product;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.harmlessprince.ecommerceApi.brand.Brand;
+import com.harmlessprince.ecommerceApi.productCategory.ProductCategory;
+import com.harmlessprince.ecommerceApi.productImage.ProductImage;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -36,13 +38,13 @@ public class Product {
     @Column(columnDefinition = "TEXT")
     private String imageUrl;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     @JsonManagedReference
-    private List<ProductImage> productImages;
+    private Set<ProductImage> productImages;
 
     @CreatedDate
     @Column(updatable = false)

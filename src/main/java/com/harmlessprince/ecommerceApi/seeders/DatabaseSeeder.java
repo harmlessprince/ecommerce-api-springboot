@@ -1,7 +1,5 @@
 package com.harmlessprince.ecommerceApi.seeders;
 
-import com.harmlessprince.ecommerceApi.product.Variation;
-import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,7 +16,7 @@ public class DatabaseSeeder {
     private final UserSeeder userSeeder;
     private final BrandSeeder brandSeeder;
 
-    @PostConstruct
+//    @PostConstruct
     private void seed() {
         userSeeder.run();
         brandSeeder.run();

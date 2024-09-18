@@ -19,6 +19,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -30,8 +31,14 @@ import java.util.HashMap;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ExceptionHandler({HttpMessageNotReadableException.class})
     public ResponseEntity<CustomErrorResponse> handle(HttpMessageNotReadableException exp) {
+        CustomErrorResponse response = new CustomErrorResponse(false, exp.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
+    public ResponseEntity<CustomErrorResponse> handle(HttpRequestMethodNotSupportedException exp) {
         CustomErrorResponse response = new CustomErrorResponse(false, exp.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
@@ -130,6 +137,6 @@ public class GlobalExceptionHandler {
             var errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomValidationErrorResponse(false, "Validation error", errors));
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new CustomValidationErrorResponse(false, "Validation error", errors));
     }
 }

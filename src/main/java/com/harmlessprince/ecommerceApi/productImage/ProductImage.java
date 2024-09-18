@@ -1,7 +1,9 @@
-package com.harmlessprince.ecommerceApi.country;
+package com.harmlessprince.ecommerceApi.productImage;
+
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.harmlessprince.ecommerceApi.state.State;
+import com.harmlessprince.ecommerceApi.file.File;
+import com.harmlessprince.ecommerceApi.product.Product;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,28 +11,33 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Builder
 @Setter
 @Getter
-@Table(name = "countries")
+@Table(
+        name = "product_images"
+)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Country {
+public class ProductImage {
 
+    public static final String MORPH = "product_image";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private File file;
 
-    @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private Boolean status = true;
+    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private Product product;
+
+//    @Column()
+//    private Integer productId;
 
     @CreatedDate
     @Column(updatable = false)
@@ -39,8 +46,4 @@ public class Country {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
-
-    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
-    @JsonBackReference
-    private Set<State> states;
 }
